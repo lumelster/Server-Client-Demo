@@ -13,9 +13,11 @@ var p13x;
 var p13y;
 var landmarks_enabled = 0;
 
+var frame_count = 0;
+
 var meta_info;
 
-var url = "/demo";
+var url = "/process";
 
   function setup() {
 
@@ -60,7 +62,6 @@ var url = "/demo";
 	  //If no face is found in video...
 	  if(!positions){
 		  console.log("No face found!");
-
 	  }else{
 
 	  /*
@@ -114,10 +115,13 @@ meta_info = {
 		}
 	}
 
+	//Send to server every 50 frames
+	if(frame_count % 50 ==0){
 	send_data(meta_info, file,url);
-
+		}
 	}	
 
+	frame_count += 1;
 }
 
 //Build and send JSON as POST Form
@@ -134,8 +138,6 @@ meta_info = {
 				console.error(request);
 			}
 		};
-		//Build POST form data couldnt get FormData working...
-		var data = "meta_info="+JSON.stringify(meta_info)+"&"+"blob="+file;
 		request.send(formData);		
 
 	}
